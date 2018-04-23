@@ -1,5 +1,3 @@
-
-
 function Im_panoramic = Panoramic( path, varargin )
 %% PANORAMIC
 % Panoramic esta função retorna a uma imagem panoramica formada pelas
@@ -51,7 +49,7 @@ function Im_panoramic = Panoramic( path, varargin )
 
 %%
 % Valores default
-num_threshold = 0.3;
+num_threshold = 0.5;
 num_matches = 300;
 imreadsize = [480 640];
 dispim = false;
@@ -134,9 +132,9 @@ end
 I{1} = imresize(iread(buildingScene.ImageLocation{1}, 'double'),imreadsize );
 % Busca das features de superficie da imagem 1
 Sf = isurf(I);
-% Matriz de homagrafia da imagem 1 é identidade já que ela não sera distorcida
+% Matriz de homografia da imagem 1 é identidade já que ela não sera distorcida
 H{1} = eye(3);
-% Matriz de homagrafia acumulada inicial
+% Matriz de homografia acumulada inicial
 tforms{1} = eye(3);
 % Imagem 1 distorcida será igual a imagem 1 sem a distorção, visto que ela
 % sera a base para todas as outras
@@ -163,7 +161,7 @@ for i = 2:buildingScene.Count
     % Faz o match entre as features da imagem anterior, e a atual -> I(n)
     m{i} = Sf{i}.match(Sfant, 'top', num_matches);
     % Calcula a matriz de homografia etre os pontos das duas imagens
-    [H{i} val{i} val2{i}] = ransac(@homography,[m{i}.xy_], num_threshold);
+    [H{i} val{i} val2{i}] = ransac(@homography,[m{i}.xy_], num_threshold, 'maxTrials', 10000);
 end
 
 %%
@@ -209,7 +207,7 @@ end
 for i = 1:buildingScene.Count
     % Faz a homografia da imagem I(n) -> newim(n)
     [bufim points{i}] = homwarp(tforms{i},I{i},'full');
-    % Tira NaN das imagens distrocidas
+    % Tira o NaN das imagens distorcidas
     bufim(isnan(bufim)) = 0;
     newim{i} = bufim;
 end
@@ -222,67 +220,81 @@ end
 %%
 % Setando o Tamanho da imagem final
 
-%
+% Calcula o tamanho da imagem inserida no alogoritmo
 [u1,v1,~] = size(I{end});
-%
+% Retorna o tamanho de todas as novas imagens, após realizada a homografia 
 [y,x,~] = cellfun(@size, newim);
-%
+% Retorna os pontos calculados na função homwarp, em forma de vetores
 temp = cell2mat(points);
 
 % Definir o ponto inicial do panorama
 if center
     
-    %
-    off = [ (sum(x - temp(1:2:end))/2) - v1/2, max(y) - u1];    
-    %
-    Panoramic = zeros( max(y) + max(y) - u1 , sum(x - temp(1:2:end)));
+    % Caso a imagem do centro seja a referência para as homografias, sua
+    % posição em X é será a soma das larguras das imagens já rotacionadas
+    % subtraído dos pontos de intersecção entre as imagens dividos por 2,
+    % já que se deseja que a imagem de centro fique no centro. Já Y será o
+    % tamanho em Y da maior imagem após a homografia subtraido
+    % do tamanho da imagem inserida;
+    off = [ (sum(x - temp(1:2:end))/2) - v1/2, (max(y) - u1)];
+    
+    % O tamanho do panorama em X será igual ao offset para quando a imagem
+    % do centro for a referência porém não divido por 2, pois só queremos a
+    % largura máxima do panorama. Y será a soma do maior Y pós
+    % homografia com o offset em Y;
+    Panoramic = zeros( (2*max(y) - u1), sum(x - temp(1:2:end)));
 else
     
-    %
+    % Caso a primeira imagem seja a referência para as homografias, sua
+    % posição em X é 1, ou seja na lateral esquerda do panorama. Já Y será
+    % o mesmo do caso anterior;
     off = [1, (max(y) - u1)];
-    %
-    Panoramic = zeros( max(y) + (max(y) - u1), sum(x - temp(1:2:end)));
+    
+    % O tamanho do panorama em X será igual ao offset para quando a imagem
+    % do centro for a referência porém não divido por 2, pois só queremos a
+    % largura máxima do panorama.  Y será a soma do maior Y pós
+    % homografia com o offset em Y;
+    Panoramic = zeros( (2*max(y) - u1), sum(x - temp(1:2:end)));
 end
 %%
 % Montagem do panorana
 
 for i = 1:buildingScene.Count
     
-    %
+    % Calcula a máscara de todas as imagens com a homografia
     mask{i} = homwarp(tforms{i},ones(u1, v1),'full');
-    %
+    % Transforma os NaN em 0;
     mask{i} = mask{i} >= 1;
-    %
-    wmask{i} = 1 - mask{i};
+    
 end
 
 for i = 2:buildingScene.Count
     
-    %
+    % Cola a imagem i no Panorama com o devido offset;
     Panoramic = ipaste(Panoramic, newim{i}, points{i}+off, 'add');
-    %
+    % Cola a máscara da imagem i-1, pois vai deixar o espaço para colar;
     Panoramic = ipaste(Panoramic, mask{i-1}, points{i-1}+off, 'add');
-    %
+    % Esta função pega os pontos brancos da imagem e transforma em 0 para
+    % poder usar o add;
     Panoramic = adjust(Panoramic);
-    %
+    % Cola a imagem i-1
     Panoramic = ipaste(Panoramic, newim{i-1}, points{i-1}+off, 'add');
 end
 
 if dispim
     
     figure, idisp(Panoramic);
+    
 end
 
 Im_panoramic = Panoramic;
 
 %%
-% É tembém possivel fazer o panorama centralizado, porém ele não encaixa as
+% É também possivel fazer o panorama centralizado, porém ele não encaixa as
 % imagens tão bem quanto o não centralizado 
 %
 % <<Panoramic_center.PNG>>
 % 
 %
 
-
 end
-
