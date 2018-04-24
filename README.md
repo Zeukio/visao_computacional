@@ -6,7 +6,7 @@ A toolbox Panoramic adiciona a função **Panoramic.m** e a função **Panoramic
 Esta toolbox necessita da biblioteca gratuita [*robotics vision and control*](http://petercorke.com/wordpress/books/book), desenvolvida pelo Peter Corke. 
 
 ## Panoramic.m
-**Panoramic.m** é uma função em MATLAB que se propõe a montar uma imagem panoramica a partir de um dataset de imagens. 
+**Panoramic.m** é uma função em MATLAB que se propõe a montar uma imagem panorâmica a partir de um dataset de imagens. 
 
 *OBS: O dataset deve estar __ordenado__ da esquerda para a direita.* 
 
@@ -15,12 +15,12 @@ O exemplo a seguir servirá para demonstrar como usar a função.
 ### Exemplo
 O panorama será feito com o seguinte data set 
 
-*obs: é necessario estar com a ToolBox intalada ou com as funções Panoramic.m e Panoramic_Adjust.m no path do MATLAB*
+*obs: é necessário estar com a ToolBox instalada ou com as funções Panoramic.m e Panoramic_Adjust.m no path do MATLAB*
  
 ![](https://github.com/Zeukio/visao_computacional/blob/master/Panoramic/html/Panoramic_014.png?raw=true)
  
 
-Primeiramente será criada uma variavel string com o caminho do arquivo do data set
+Primeiramente será criada uma varíavel string com o caminho do arquivo do data set
 ```matlab
 Dataset_path = 'C://.../.../Your_Data_Set';
 ```
@@ -34,7 +34,7 @@ Agora para mostrar na tela a imagem final deve-se usar o comando
 ```matlab
 idisp(P1);
 ```
- E deverá aparecer a algo paracido com a seguinte imagem
+ E deverá aparecer a algo parasido com a seguinte imagem
  
  ![](https://github.com/Zeukio/visao_computacional/blob/master/Panoramic/html/Panoramic_Uncenter.png?raw=true)
 
