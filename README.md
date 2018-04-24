@@ -54,7 +54,7 @@ P1 = Panoramic(Dataset_path,'size',[960,1280]);
 P1 = Panoramic(Dataset_path,'matches',200);
 ```
 
-- Valor do filtro de threshold usada na função de decição de pontos de matches para o cálculo da homografia. 
+- Valor do filtro de threshold usada na função de decisão de pontos de matches para o cálculo da homografia. 
 
 ```matlab
 P1 = Panoramic(Dataset_path,'num_threshold',.5);
