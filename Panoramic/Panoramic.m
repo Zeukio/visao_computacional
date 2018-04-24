@@ -15,7 +15,7 @@ function Im_panoramic = Panoramic( path, varargin )
 %
 % pode se alterar o tamanho processado da imagem usando:
 %
-% |Im = Panoramic( path, 'size', size_vec )|
+% |Im = Panoramic( path, 'size', [U V])|
 %
 % Default [480 640]
 %
@@ -157,7 +157,7 @@ for i = 2:buildingScene.Count
     Iant = I{i-1};
     Sfant = Sf{i-1};
     % Abrir Imagem n
-    I{i} = imresize(iread(buildingScene.ImageLocation{i}, 'double'), [480 640]);
+    I{i} = imresize(iread(buildingScene.ImageLocation{i}, 'double'),imreadsize);
     % Procurar fetures na Imagem n
     Sf{i} = isurf(I{i});
     % Faz o match entre as features da imagem anterior, e a atual -> I(n)

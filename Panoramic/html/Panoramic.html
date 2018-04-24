@@ -67,7 +67,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
   </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">PANORAMIC</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> Im_panoramic = Panoramic( path, varargin )
-</pre><h2>PANORAMIC<a name="2"></a></h2><p>Panoramic esta fun&ccedil;&atilde;o retorna a uma imagem panoramica formada pelas imagens do dataset que est&atilde;o na pasta do <i>path</i>.</p><p><b>As Imagens devem estar em sequncia para que a fun&ccedil;&atilde;o funcione corretamente</b></p><p><tt>Im = Panoramic( path )</tt></p><p>onde <tt>Im  = imagem</tt> <tt>path = string do diret&oacute;rio do data set</tt></p><p>pode se alterar o tamanho processado da imagem usando:</p><p><tt>Im = Panoramic( path, 'size', size_vec )</tt></p><p>Default [480 640]</p><p>pode se mostrar parte do processamento na tela usando:</p><p><tt>Im = Panoramic( path, 'display')</tt></p><p>Default false</p><p>Mudar o numero de matches:</p><p><tt>Im = Panoramic( path, 'matches', num_matches)</tt></p><p>Default 300</p><p>Mudar o par&acirc;metro do filtro threshold usado na para criar a matriz de homografia</p><p><tt>Im = Panoramic( path, 'threshold', num_threshold)</tt></p><p>Default 0.3</p><p>Centralizar o panorama</p><p><tt>Im = Panoramic( path, 'center')</tt></p><p>Default false</p><p>Tamb&eacute;m pode se usar mais de um comando (<b>n&atilde;o importa a ordem</b>);</p><p><tt>Im = Panoramic( path,'display','size', size_vec,'threshold', num_threshold, 'matches', num_maches)</tt></p><p>Valores default</p><pre class="codeinput">num_threshold = 0.5;
+</pre><h2>PANORAMIC<a name="2"></a></h2><p>Panoramic esta fun&ccedil;&atilde;o retorna a uma imagem panoramica formada pelas imagens do dataset que est&atilde;o na pasta do <i>path</i>.</p><p><b>As Imagens devem estar em sequncia para que a fun&ccedil;&atilde;o funcione corretamente</b></p><p><tt>Im = Panoramic( path )</tt></p><p>onde <tt>Im  = imagem</tt> <tt>path = string do diret&oacute;rio do data set</tt></p><p>pode se alterar o tamanho processado da imagem usando:</p><p><tt>Im = Panoramic( path, 'size', [U V])</tt></p><p>Default [480 640]</p><p>pode se mostrar parte do processamento na tela usando:</p><p><tt>Im = Panoramic( path, 'display')</tt></p><p>Default false</p><p>Mudar o numero de matches:</p><p><tt>Im = Panoramic( path, 'matches', num_matches)</tt></p><p>Default 300</p><p>Mudar o par&acirc;metro do filtro threshold usado na para criar a matriz de homografia</p><p><tt>Im = Panoramic( path, 'threshold', num_threshold)</tt></p><p>Default 0.3</p><p>Centralizar o panorama</p><p><tt>Im = Panoramic( path, 'center')</tt></p><p>Default false</p><p>Tamb&eacute;m pode se usar mais de um comando (<b>n&atilde;o importa a ordem</b>);</p><p><tt>Im = Panoramic( path,'display','size', size_vec,'threshold', num_threshold, 'matches', num_maches)</tt></p><p>Valores default</p><pre class="codeinput">num_threshold = 0.5;
 num_matches = 300;
 imreadsize = [480 640];
 dispim = false;
@@ -161,7 +161,7 @@ points{1} = [0 0];
     Iant = I{i-1};
     Sfant = Sf{i-1};
     <span class="comment">% Abrir Imagem n</span>
-    I{i} = imresize(iread(buildingScene.ImageLocation{i}, <span class="string">'double'</span>), [480 640]);
+    I{i} = imresize(iread(buildingScene.ImageLocation{i}, <span class="string">'double'</span>),imreadsize);
     <span class="comment">% Procurar fetures na Imagem n</span>
     Sf{i} = isurf(I{i});
     <span class="comment">% Faz o match entre as features da imagem anterior, e a atual -&gt; I(n)</span>
@@ -280,7 +280,7 @@ temp = cell2mat(points);
     Panoramic1 = ipaste(Panoramic1, mask{i-1}, points{i-1}+off, <span class="string">'add'</span>);
     <span class="comment">% Esta fun&ccedil;&atilde;o pega os pontos brancos da imagem e transforma em 0 para</span>
     <span class="comment">% poder usar o add;</span>
-    Panoramic1 = adjust(Panoramic1);
+    Panoramic1 = Panoramic_Adjust(Panoramic1);
     <span class="comment">% Cola a imagem i-1</span>
     Panoramic1 = ipaste(Panoramic1, newim{i-1}, points{i-1}+off, <span class="string">'add'</span>);
 <span class="keyword">end</span>
@@ -312,7 +312,7 @@ function Im_panoramic = Panoramic( path, varargin )
 %
 % pode se alterar o tamanho processado da imagem usando:
 %
-% |Im = Panoramic( path, 'size', size_vec )|
+% |Im = Panoramic( path, 'size', [U V])|
 %
 % Default [480 640]
 %
@@ -454,7 +454,7 @@ for i = 2:buildingScene.Count
     Iant = I{i-1};
     Sfant = Sf{i-1};
     % Abrir Imagem n
-    I{i} = imresize(iread(buildingScene.ImageLocation{i}, 'double'), [480 640]);
+    I{i} = imresize(iread(buildingScene.ImageLocation{i}, 'double'),imreadsize);
     % Procurar fetures na Imagem n
     Sf{i} = isurf(I{i});
     % Faz o match entre as features da imagem anterior, e a atual -> I(n)
@@ -573,7 +573,7 @@ for i = 2:buildingScene.Count
     Panoramic1 = ipaste(Panoramic1, mask{i-1}, points{i-1}+off, 'add');
     % Esta função pega os pontos brancos da imagem e transforma em 0 para
     % poder usar o add;
-    Panoramic1 = adjust(Panoramic1);
+    Panoramic1 = Panoramic_Adjust(Panoramic1);
     % Cola a imagem i-1
     Panoramic1 = ipaste(Panoramic1, newim{i-1}, points{i-1}+off, 'add');
 end
