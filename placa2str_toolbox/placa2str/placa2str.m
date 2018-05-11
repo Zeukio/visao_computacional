@@ -31,11 +31,11 @@ template_path = 'Template.jpg';
 % definindo o valor do treshold
 threshold_value =  0.2;
 % separando as letras do template
-letras_template = DivideLetters(template_path, threshold_value);
+letras_template = DivideLetters(template_path, threshold_value,'template');
 %% lendo a imagem da placa
 % defindo o path da imagem da placa
 % "favor não colocar a imagem da placa dentro da pasta de funções"
-placa_path = 'C:\Users\steph\OneDrive\Documentos\GitHub\visao_computacional\placa2str_toolbox\Dataset_Placas\placa_moto1.jpg';
+placa_path = 'C:\Users\steph\OneDrive\Documentos\GitHub\visao_computacional\placa2str_toolbox\Dataset_Placas\placa_carro1.jpg';
 % definindo o valor do treshold
 threshold_value =  0.2;
 % separando as letras da imagem
@@ -60,15 +60,16 @@ end
 
 %%
 % display do resultado
-result = {};
+Alfabeto_Numerico = ['ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-'];
+result = [];
 for i = 1:length(match)
     if match(i,1) ~= 0
-    result = [result letras_template(match(i,2))];
+    result = [result Alfabeto_Numerico(match(i,2))];
     else
         warning('wrong match')
     end    
 end    
-idisp(result)
+disp(result)
 
 
 
