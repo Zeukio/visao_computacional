@@ -35,7 +35,7 @@ letras_template = DivideLetters(template_path, threshold_value);
 %% lendo a imagem da placa
 % defindo o path da imagem da placa
 % "favor não colocar a imagem da placa dentro da pasta de funções"
-placa_path = 'C:\Users\steph\OneDrive\Área de Trabalho\UFSC\9º Semestre\VC\BLU3040_Visao-master\A2\dataset\placa_carro1.jpg';
+placa_path = 'C:\Users\steph\OneDrive\Documentos\GitHub\visao_computacional\placa2str_toolbox\Dataset_Placas\placa_moto1.jpg';
 % definindo o valor do treshold
 threshold_value =  0.2;
 % separando as letras da imagem
@@ -62,7 +62,11 @@ end
 % display do resultado
 result = {};
 for i = 1:length(match)
+    if match(i,1) ~= 0
     result = [result letras_template(match(i,2))];
+    else
+        warning('wrong match')
+    end    
 end    
 idisp(result)
 

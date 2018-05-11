@@ -26,15 +26,11 @@ im_sub_box = iblobs(im_pb);
 % Descobrindo a area externa da imagem
 [~, i] = max(im_sub_box.area);
 
-% Descobrindo as regiões filhas da area externa  
+% Descobrindo as regiões filhas da area externa
 sub_regioes = im_sub_box(i).children;
 
-% Para manter a ordem das subimagens da esquerda pra direita usa-se a
-%ordenação pela posção central de cada região. 
-[~,idx] = sort([im_sub_box.('uc')]);
-
 % coloca o vetor de subregioens na ordem correta
-sub_regioes = Sortzitos(sub_regioes, idx);
+sub_regioes = Sortzitos(sub_regioes, im_sub_box);
 
 % Separa cada sub imagem e as colocas em uma celula
 for i =1:length(sub_regioes)
