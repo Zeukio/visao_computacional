@@ -9,55 +9,78 @@ function sub_im = DivideLetters(im_path, ths, varagin)
 %tird paramiter
 %  
 
-temp = false;
+    temp = false;
 % Lendo imagem(s) do(s) template(s)
-im = iread(im_path,'grey','double');
+    im = iread(im_path,'grey','double');
+    
+    if strcmp(varagin, 'template') == 0
+        mask = iread('mask.jpg', 'double', 'grey');
+        mask(mask > 0.8) = 1;
+        maskinv = 1 - mask;
+        figure, idisp(maskinv);
+        buf = imresize(mask, size(im));
+        buf1 = imresize(maskinv, size(im));
+        im = buf.*im;
+        im = buf1+im;
+    end
+    
+    figure, idisp(im);
 
 % Aplicando o threshold no template
-[U,V] = size(im);
-im_pb = zeros(U,V);
-im_pb(im<ths) = 1;
+    im(im > ths) = 1;
+    figure, idisp(im);
 
-if nargin > 2 
-    if isnumeric(varagin) && ismatrix(varagin)
-    % varagin =  janela do iopen
-   im_pb = iopen(im_pb,varagin);
-    elseif isequal(varagin,'template')
-        temp = true;
-    else
-        warning('error');
+    if nargin > 2 
+        if isnumeric(varagin) && ismatrix(varagin)
+            % varagin =  Janela do iopen
+            im = iopen(im, varagin);
+%             im = ierode(idilate(im, ones(2)), ones(3));
+            figure, idisp(im);
+        elseif isequal(varagin,'template')
+            temp = true;
+        else
+            warning('Erro, verifique os parâmetros da função');
+        end
     end
-end
 
-% Seplarando cada caracter do template
-im_sub_box = iblobs(im_pb);
+% Separando cada caracter do template
+    im_sub_box = iblobs(im);
  
-% Descobrindo a maior area externa da imagem
-[~, i] = max(im_sub_box.area);
+% Descobrindo a maior área externa da imagem
+    [~, i] = max(im_sub_box.area);
 
 % Descobrindo as regiões filhas da area externa
-sub_regioes = im_sub_box(i).children;
-
-
-% coloca o vetor de subregioens na ordem correta
-if ~temp
-sub_regioes = Sortzitos(sub_regioes, im_sub_box);
-else
-    sub_regioes = SortzitosTemp(sub_regioes, im_sub_box);
-end    
-% Separa cada sub imagem e as colocas em uma celula
-
+    sub_regioes = im_sub_box(i).children;
     
-    % Selecionando a sub_região correta
-    p = im_sub_box(sub_regioes);
-    % Definindo o tamanho da região de corte
-    bufrect = [p.umin',p.umax',p.vmin', p.vmax'];
-    % Aplicando o corte
-    for i = 1: length(bufrect)
-    sub_im{i} = iroi(im_pb,[bufrect(i,1:2);bufrect(i,3:4)]);
+    for i = 1:length(sub_regioes)
+
+        if im_sub_box(sub_regioes(i)).area > 20
+            sub_regioes1(i) = sub_regioes(i);
+        end
+
     end
 
+% Coloca o vetor de sub-regiões na ordem correta
+    if ~temp
+        sub_regioes = Sortzitos(sub_regioes1, im_sub_box);
+    else
+        sub_regioes = SortzitosTemp(sub_regioes1, im_sub_box);
+    end
 
+% Separa cada sub-imagem e as coloca em uma célula
+    
+    % Selecionando a sub-região correta
+    p = im_sub_box(sub_regioes);
+    
+    p.plot_box;
+    
+    % Definindo o tamanho da região de corte
+    bufrect = [p.umin',p.umax',p.vmin', p.vmax'];
+    
+    % Aplicando o corte
+    for i = 1:length(bufrect)
+        sub_im{i} = iroi(im,[bufrect(i,1:2);bufrect(i,3:4)]);
+    end
 
 end
 

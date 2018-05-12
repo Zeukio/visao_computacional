@@ -25,35 +25,37 @@ clear all; close all ; clc
 display = true;
 
 
-%% lendo a(s) imagem(s) do(s) template(s)
-% defindo o path do template
+%% Lendo a(s) imagem(s) do(s) template(s)
+% Definindo o path do template
 template_path = 'Template.jpg';
-% definindo o valor do treshold
-threshold_value =  0.2;
-% separando as letras do template
-letras_template = DivideLetters(template_path, threshold_value,'template');
-%% lendo a imagem da placa
-% defindo o path da imagem da placa
-% "favor não colocar a imagem da placa dentro da pasta de funções"
-placa_path = 'C:\Users\steph\OneDrive\Documentos\GitHub\visao_computacional\placa2str_toolbox\Dataset_Placas\placa_carro1.jpg';
-% definindo o valor do treshold
-threshold_value =  0.2;
+% Definindo o valor do Threshold
+threshold_value = 0.2;
+% Separando as letras do template
+letras_template = DivideLetters(template_path, threshold_value, 'template');
+
+%% Lendo a imagem da placa
+% Defindo o path da imagem da placa
+% "Favor não colocar a imagem da placa dentro da pasta de funções"
+placa_path = strcat(pwd, '\Dataset_Placas');
+% definindo o valor do Threshold
+threshold_value = 0.22;
 % separando as letras da imagem
-letras_placa = DivideLetters(placa_path, threshold_value, ones(9));
+letras_placa = DivideLetters(placa_path, threshold_value, ones(2));
+
 %% 
 % Combinado cada letra do template com cada letra da placa
 for i = 1:length(letras_placa)  
    for j = 1:length(letras_template)
-       
-        % redimencionando a letra da placa para ficar com o mesmo tamnho da
+        % redimencionando a letra da placa para ficar com o mesmo tamanho da
         % letra no template
         buf = imresize(letras_placa{i},size(letras_template{j}));
         % fazendo o zncc entre cada letra da placa com o template 
         vec(j,:) = [zncc(letras_template{j},buf)];
    end   
-   % separando o matching mais forte
+   % Separando o matching mais forte
    [val chara] = max(abs(vec));
-   % armazenado no vetor matching o valor do mathing e o index de cada
+   idisp(buf)
+   % Armazenado no vetor matching o valor do mathing e o index de cada
    % correspondência
    match(i,:) =  [val chara i];
 end    
@@ -63,8 +65,8 @@ end
 Alfabeto_Numerico = ['ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-'];
 result = [];
 for i = 1:length(match)
-    if match(i,1) ~= 0
-    result = [result Alfabeto_Numerico(match(i,2))];
+    if match(i,1) > 0.5
+        result = [result Alfabeto_Numerico(match(i,2))];
     else
         warning('wrong match')
     end    
