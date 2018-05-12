@@ -38,7 +38,7 @@ letras_template = DivideLetters(template_path, threshold_value, 'template');
 % "Favor não colocar a imagem da placa dentro da pasta de funções"
 placa_path = strcat(pwd, '\Dataset_Placas');
 % definindo o valor do Threshold
-threshold_value = 0.22;
+threshold_value = 0.2;
 % separando as letras da imagem
 letras_placa = DivideLetters(placa_path, threshold_value, ones(2));
 
@@ -54,7 +54,7 @@ for i = 1:length(letras_placa)
    end   
    % Separando o matching mais forte
    [val chara] = max(abs(vec));
-   idisp(buf)
+   
    % Armazenado no vetor matching o valor do mathing e o index de cada
    % correspondência
    match(i,:) =  [val chara i];
@@ -68,10 +68,14 @@ for i = 1:length(match)
     if match(i,1) > 0.5
         result = [result Alfabeto_Numerico(match(i,2))];
     else
-        warning('wrong match')
+        warning('wrong match \n i: %d \n match: %d ',i, match(i,1));
     end    
 end    
-disp(result)
+
+disp(result(1:2))
+disp(result(3:end-7))
+
+disp(result(end-6:end))
 
 
 
