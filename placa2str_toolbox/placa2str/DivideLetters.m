@@ -65,52 +65,26 @@ if ~temp
     if abs(prop-3) < 1e-1
         
         % Placa de carro
-       im = RecorteDaPlaca(im, 'carro');
+       new_im = RecorteDaPlaca(im, 'carro');
     elseif  abs(prop - 1.1) < 1e-1
         
         % Placa Moto
-        im = RecorteDaPlaca(im, 'moto');
+        new_im = RecorteDaPlaca(im, 'moto');
     else
         
         warning('Modelo de placa não detectado \n prop: %d',prop);
     end
+else
+    new_im  = {im};
 end
 % figure, idisp(im);
 stepbystep = [stepbystep im]; 
 
-% Descobrindo as regiões filhas da area externa
-sub_regioes = im_sub_box(i).children;
-
-% Filtrando as regioes
-for i = 1:length(sub_regioes)
+for i = 1:length(new_im)
+    sub_im{i} = CutLetters(new_im{i}, temp)
+end
     
-    if im_sub_box(sub_regioes(i)).area > 20
-        sub_regioes1(i) = sub_regioes(i);
-    end
-    
-end
 
-% Coloca o vetor de sub-regiões na ordem correta
-if ~temp
-    sub_regioes = Sortzitos(sub_regioes1, im_sub_box);
-else
-    sub_regioes = SortzitosTemp(sub_regioes1, im_sub_box);
-end
-
-% Separa cada sub-imagem e as coloca em uma célula
-
-% Selecionando a sub-região correta
-p = im_sub_box(sub_regioes);
-
-p.plot_box;
-
-% Definindo o tamanho da região de corte
-bufrect = [p.umin',p.umax',p.vmin', p.vmax'];
-
-% Aplicando o corte
-for i = 1:length(bufrect)
-    sub_im{i} = iroi(im,[bufrect(i,1:2);bufrect(i,3:4)]);
-end
 
 % Mostrando o passo a passo
 iconcat(stepbystep,'v')
