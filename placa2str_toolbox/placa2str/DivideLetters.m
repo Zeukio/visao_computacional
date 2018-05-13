@@ -72,7 +72,7 @@ if ~temp
         % Placa Moto
         new_im = RecorteDaPlaca(im, 'moto');    
     else
-        
+        new_im  = {im};
         warning('Modelo de placa não detectado \n prop: %d',prop);
     end
 else

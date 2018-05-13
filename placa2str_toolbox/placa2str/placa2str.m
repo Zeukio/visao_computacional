@@ -38,7 +38,7 @@ letras_template = DivideLetters(template_path, threshold_value, 'template');
 % "Favor não colocar a imagem da placa dentro da pasta de funções"
 placa_path = strcat(pwd, '\Dataset_Placas');
 % definindo o valor do Threshold
-threshold_value = 0.2;
+threshold_value = 0.5;
 % separando as letras da imagem
 Buf_letras_placa = DivideLetters(placa_path, threshold_value, ones(2));
 
