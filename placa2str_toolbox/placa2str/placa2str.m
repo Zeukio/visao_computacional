@@ -65,7 +65,7 @@ end
 Alfabeto_Numerico = ['ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-'];
 result = [];
 for i = 1:length(match)
-    if match(i,1) > 0.5
+    if match(i,1) > 0.45
         result = [result Alfabeto_Numerico(match(i,2))];
     else
         warning('wrong match \n i: %d \n match: %d ',i, match(i,1));
@@ -74,7 +74,6 @@ end
 
 disp(result(1:2))
 disp(result(3:end-7))
-
 disp(result(end-6:end))
 
 
