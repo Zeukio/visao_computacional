@@ -1,4 +1,4 @@
-function sub_im  = CutLetters( im, temp )
+function sub_im  = CutLetters( im, temp, moto)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -17,9 +17,11 @@ for i = 1:length(sub_regioes)
 end
 
 % Coloca o vetor de sub-regiões na ordem correta
-if ~temp
+if ~temp & moto
     
     sub_regioes = Sortzitos(sub_regioes1, im_sub_box);
+elseif ~temp & ~moto
+    sub_regioes = SortzitosTemp(sub_regioes1, im_sub_box);
 else
     
     sub_regioes = SortzitosTemp(sub_regioes1, im_sub_box);

@@ -25,6 +25,7 @@ function sub_im = DivideLetters(im_path, ths, varagin)
 
 stepbystep = {};
 temp = false;
+moto = false;
 % Lendo imagem(s) do(s) template(s)
 im = iread(im_path,'grey','double');
 figure, idisp(im);
@@ -70,6 +71,7 @@ if ~temp
         
         % Placa Moto
         new_im = RecorteDaPlaca(im, 'moto');
+        moto = true;
     else
         
         warning('Modelo de placa não detectado \n prop: %d',prop);
@@ -81,7 +83,7 @@ end
 stepbystep = [stepbystep im]; 
 
 for i = 1:length(new_im)
-    sub_im{i} = CutLetters(new_im{i}, temp)
+    sub_im{i} = CutLetters(new_im{i}, temp,moto)
 end
     
 
