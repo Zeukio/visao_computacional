@@ -25,6 +25,7 @@ function sub_im = DivideLetters(im_path, ths, varagin)
 
 stepbystep = {};
 temp = false;
+moto = false;
 codigo_placa = false;
 % Lendo imagem(s) do(s) template(s)
 im = iread(im_path,'grey','double');
@@ -63,14 +64,15 @@ im_sub_box = iblobs(im);
 if ~temp
     
     prop = (im_sub_box(i).umax - im_sub_box(i).umin)/(im_sub_box(i).vmax - im_sub_box(i).vmin);
-    if abs(prop-3) < 1e-1
+    if abs(prop-3) < 4e-1
         
         % Placa de carro
        new_im = RecorteDaPlaca(im, 'carro');
     elseif  abs(prop - 1.1) < 1e-1
         
         % Placa Moto
-        new_im = RecorteDaPlaca(im, 'moto');    
+        new_im = RecorteDaPlaca(im, 'moto');
+        moto = true
     else
         new_im  = {im};
         warning('Modelo de placa não detectado \n prop: %d',prop);
@@ -82,10 +84,11 @@ end
 stepbystep = [stepbystep im]; 
 
 for i = 1:length(new_im)
-    if i>1
+    if i>1 && moto
     codigo_placa = true;
     end
     sub_im{i} = CutLetters(new_im{i}, temp,codigo_placa)
+ 
     
 end
     
