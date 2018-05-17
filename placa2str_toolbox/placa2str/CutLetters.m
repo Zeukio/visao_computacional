@@ -51,7 +51,7 @@ for i = 1:length(bufrect)
     
     if b/a<0.2 %% caso for um i ou 1 fazer um redimensionamento grande
         vala = 0.2;
-        valb = 0.25;
+        valb = 1;
       
     else
         vala = 0.2;
