@@ -23,19 +23,29 @@ function sub_im = DivideLetters(im_path, ths, varagin)
 % 
 
 
-stepbystep = {};
+%%
+% arrumar varagin
+%
+
+disp = true; %% comando de display
+
+if disp
+ stepbystep = {};
+end
+%%  
 temp = false;
 moto = false;
 codigo_placa = false;
 % Lendo imagem(s) do(s) template(s)
 im = iread(im_path,'grey','double');
-figure, idisp(im);
-stepbystep = [stepbystep im]; 
+
+
+ stepbystep = [stepbystep im]; 
 
 % Aplicando o threshold no template
 im(im > ths) = 1;
-% figure, idisp(im);
-stepbystep = [stepbystep im]; 
+
+ stepbystep = [stepbystep im]; 
 
 if nargin > 2    
     
@@ -44,7 +54,7 @@ if nargin > 2
         % varagin =  Janela do iopen
         im = iopen(im, varagin);
         %             im = ierode(idilate(im, ones(2)), ones(3));
-        figure, idisp(im);
+
     elseif isequal(varagin,'template')
         
         temp = true;
@@ -81,13 +91,13 @@ else
     new_im  = {im};
 end
 % figure, idisp(im);
-stepbystep = [stepbystep im]; 
+ stepbystep = [stepbystep new_im]; 
 
 for i = 1:length(new_im)
     if i>1 && moto
     codigo_placa = true;
     end
-    sub_im{i} = CutLetters(new_im{i}, temp,codigo_placa)
+    sub_im{i} = CutLetters(new_im{i}, temp,codigo_placa);
  
     
 end
@@ -95,7 +105,9 @@ end
 
 
 % Mostrando o passo a passo
-iconcat(stepbystep,'v')
+if disp
+ iconcat(stepbystep,'v') %% display
+end
 
 end
 

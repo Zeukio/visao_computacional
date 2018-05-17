@@ -9,11 +9,20 @@ sub_regioes = im_sub_box(i).children;
 
 
 
+% for i = 1:length(sub_regioes)
+%     %filtrando area
+%     if im_sub_box(sub_regioes(i)).area > 20
+%         sub_regioes1(i) = sub_regioes(i);
+%     end
+% end
+
 for i = 1:length(sub_regioes)
     %filtrando area
-    if im_sub_box(sub_regioes(i)).area > 20
+    if im_sub_box(sub_regioes(i)).area > .3*mean(im_sub_box(sub_regioes).area)
         sub_regioes1(i) = sub_regioes(i);
     end
+    
+        
 end
 
 % Coloca o vetor de sub-regiões na ordem correta
@@ -40,9 +49,21 @@ for i = 1:length(bufrect)
     
     [a b] = size(sub_im{i});
     
-    if b/a<0.2
-       sub_im{i} = [sub_im{i}, ones(length(sub_im{i}),30); ]
+    if b/a<0.2 %% caso for um i ou 1 fazer um redimensionamento grande
+        vala = 0.2;
+        valb = 0.25;
+      
+    else
+        vala = 0.2;
+        valb = 0.2;
+      
     end
+      sub_im{i} = [ones(round(a*vala),b); sub_im{i}];
+      [a b] = size(sub_im{i});
+      sub_im{i} =  [sub_im{i},ones(a,round(b*valb));ones(round(a*vala/3),b+round(b*valb))];
+      [a b] = size(sub_im{i});
+      sub_im{i} =  [ones(a,round(b*valb/5)),sub_im{i}];
+       
 end
 % idisp(sub_im)
 
