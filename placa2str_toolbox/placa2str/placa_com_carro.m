@@ -1,15 +1,9 @@
-clear all, close all
-
-path = strcat(pwd, '\Dataset_Placas2');
-
-im =  iread(path,'grey','double');
+function str = placa_com_carro(im,ths)
 
 t = otsu(im)/2;
 
 % Ajustar o THS, se colocar t ele aplica o ths adaptativo
-im1 = niblack(im,-.5,1) < 0.3;
-im2 = iclose(im1, ones(3));
-% figure, idisp(im2)
+im1 = niblack(im,-.5,1) < ths;
 
 bl = iblobs(im1, 'area', [100 Inf], 'touch',0);
 
@@ -20,10 +14,11 @@ for i = 1:length(bl)
 end
 
 houghLines = Hough(imt);
-% idisp(imt);
+
 p = houghLines.lines;
 
 % Acha a equação da reta
+
 for i = 1:numel(p)
     m(i) = atan(p(i).theta);
     c(i) = p(i).rho/cos(p(i).theta);
@@ -35,6 +30,7 @@ for i = 1:size(p,2)
 end
 
 % Desenha a reta
+
 % for i = 1:size(im1,2)
 %    im(ceil(abs(cu(1,i))), i) = 1;   
 % end
@@ -65,6 +61,7 @@ for i = 1:size(bl1,2)-1
 end
 
 % Separa os grupos por proximidade em X
+
 paux_1 = [];
 paux_1(1) = 1;
 paux = 1;
@@ -85,6 +82,7 @@ end
 letra = 1;
 
 % Separa o grupo
+
 if(ind1 ~= 1)
     for i=1:ind1-1
         letra = paux_1(i) + letra; 
@@ -115,3 +113,5 @@ str = placa2str(sub_im{end},ths,w,'display','codigo');
 
 % imt = iblobs(sub_im{i+1})
 % imt.plot_box
+
+end
