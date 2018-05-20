@@ -43,7 +43,7 @@ stepbystep = [stepbystep im];
 % Aplicando o threshold no template
 im(im > ths) = 1;
 
- 
+
 
 if nargin > 2    
     
@@ -66,6 +66,10 @@ end
 
 
 stepbystep = [stepbystep im]; 
+[u v] = size(im);
+im = [ones(u,3),im, ones(u,3)];
+[u v] = size(im);
+im = [ones(3,v); im; ones(3,v)];
 % Separando cada caracter do template
 im_sub_box = iblobs(im);
 

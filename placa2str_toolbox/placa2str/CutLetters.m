@@ -9,13 +9,6 @@ sub_regioes = im_sub_box(i).children;
 
 
 
-% for i = 1:length(sub_regioes)
-%     %filtrando area
-%     if im_sub_box(sub_regioes(i)).area > 20
-%         sub_regioes1(i) = sub_regioes(i);
-%     end
-% end
-
 for i = 1:length(sub_regioes)
     %filtrando area
     if im_sub_box(sub_regioes(i)).area > .3*mean(im_sub_box(sub_regioes).area)
