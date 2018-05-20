@@ -7,6 +7,6 @@ im =  iread(path,'grey','double');
 ths = 0.2;
 w = ones(2); %tamanho da janela - ideia é de mudar o tipo
 
-% str = placa2str(im,ths,w,'display');
+str = placa2str(im,ths,w,'display');
 
-str = placa_com_carro(im,ths);
+%str = placa_com_carro(im,ths);

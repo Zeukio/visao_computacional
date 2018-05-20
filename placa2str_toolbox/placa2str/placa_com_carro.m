@@ -1,5 +1,7 @@
 function str = placa_com_carro(im,ths)
-
+%%
+% Escrever Help
+%
 t = otsu(im)/2;
 
 % Ajustar o THS, se colocar t ele aplica o ths adaptativo

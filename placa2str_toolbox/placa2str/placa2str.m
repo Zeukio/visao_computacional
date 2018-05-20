@@ -47,7 +47,7 @@ if nargin > 3
                 display = true;
             elseif isequal(comand{i},'codigo')
                 cod = true;
-             elseif isequal(comand{i},'codigo')
+             elseif isequal(comand{i},'cidade')
                 cid = true;   
             else
                 % Erro caso os comandos forem inválidos
@@ -85,10 +85,10 @@ NumerosTemplate= DivideLetters(NumerosTemplate, threshold_value, 'template');
 threshold_value = ths;
 % separando as letras da imagem
 if ~display
-    Buf_letras_placa = DivideLetters(im, threshold_value, w);
+    Buf_letras_placa = DivideLetters(im, threshold_value,'window', w,'alfanum',cod);
 else
-    [Buf_letras_placa disp_im] = DivideLetters(im, threshold_value, w);
-    idisp(disp_im);
+    [Buf_letras_placa disp_im] = DivideLetters(im, threshold_value,'window', w,'alfanum',cod);
+    idisp(disp_im, 'nogui');
 end
 %%
 % Combinado cada letra do template com cada letra da placa
