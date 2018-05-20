@@ -4,10 +4,10 @@ function s_im = RecorteDaPlaca(im, str)
 
 if isequal(str,'carro')
     
-    temp = 'MaskCarro.jpg';    
+    temp = 'TempeMask\MaskCarro.jpg';    
 elseif isequal(str,'moto')
     
-     temp = 'MaskMoto.jpg';
+     temp = 'TempeMask\MaskMoto.jpg';
 else 
     
     error('%s non evaluated command', str);    

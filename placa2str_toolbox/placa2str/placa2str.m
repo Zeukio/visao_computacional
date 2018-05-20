@@ -7,74 +7,101 @@
 % Para desenvolvimeto usaremos a versão script
 
 %% Modificar essa seção quando mudar para função
-% limpando a memória
-clear all; close all ; clc
-% Input values for debug
-path = strcat(pwd, '\Dataset_Placas');
-ths = 0.2;
-w = ones(2); %tamanho da janela - ídeia é de mudar o tipo
-display = false;
-
+% % limpando a memória
+% clear all; close all ; clc
+% % Input values for debug
+% path = strcat(pwd, '\Dataset_Placas');
+% ths = 0.2;
+% w = ones(2); %tamanho da janela - ídeia é de mudar o tipo
+%
 %% Header da função
-% function str = placa2str(path,ths,w)
+
+function str = placa2str(im,ths,w,varargin)
 %
-% Put here possibles extra input arguments
-% - display
-% - ths
-% - w 
-%
-% Put here possibles extra output arguments
-% - valor dos mathes
-% - imagem com a plicação dos tresholds
-% -
-%
+% help here
 
+display = false;
+cod = false;
+cid = false;
 
-
-
+if nargin > 3
+    
+    if isa(varargin{1},'cell')
+        
+        comand = varargin{1};
+        [~, buf] = size(varargin{1});
+    else
+        
+        [~, buf] = size(varargin);
+        for i = 1:buf
+            
+            comand{i} =  varargin{i};
+        end
+    end
+    
+    for i = 1 : buf
+        if ischar(comand{i})
+            if isequal(comand{i},'display')
+                
+                %se display
+                display = true;
+            elseif isequal(comand{i},'codigo')
+                cod = true;
+             elseif isequal(comand{i},'codigo')
+                cid = true;   
+            else
+                % Erro caso os comandos forem inválidos
+                error('Invalid Input');
+            end
+        end
+    end
+end
 %% Lendo a(s) imagem(s) do(s) template(s)
-% Definindo o path do template
-template_path = 'Template.jpg';
+% Definindo o path do template letras
+template_path = 'TempeMask\TemplateLetters.jpg';
+LetrasTemplate = iread(template_path,'grey','double');
 % Definindo o valor do Threshold
 threshold_value = 0.2;
-% Separando as letras do template
-LetraseNumerosTemplate = DivideLetters(template_path, threshold_value, 'template');
+% Separando as letras do template letras
+LetrasTemplate = DivideLetters(LetrasTemplate, threshold_value, 'template');
 
-% Definindo o path do template2
-template_path = 'TemplateLetters.jpg';
+
+
+% Definindo o path do template numeros
+template_path = 'TempeMask\TemplateNumbers.jpg';
+NumerosTemplate = iread(template_path,'grey','double');
 % Definindo o valor do Threshold
 threshold_value = 0.2;
-% Separando as letras do template2
-LetrasTemplate = DivideLetters(template_path, threshold_value, 'template');
-
-
-
-% Definindo o path do template3
-template_path = 'TemplateNumbers.jpg';
-% Definindo o valor do Threshold
-threshold_value = 0.2;
-% Separando as letras do template3
-NumerosTemplate = DivideLetters(template_path, threshold_value, 'template');
+% Separando as letras do template numeros
+NumerosTemplate= DivideLetters(NumerosTemplate, threshold_value, 'template');
 
 
 
 %% Lendo a imagem da placa
 % Defindo o path da imagem da placa
 % "Favor não colocar a imagem da placa dentro da pasta de funções"
-placa_path = path;
+
 % definindo o valor do Threshold
 threshold_value = ths;
 % separando as letras da imagem
-Buf_letras_placa = DivideLetters(placa_path, threshold_value, w);
-
+if ~display
+    Buf_letras_placa = DivideLetters(im, threshold_value, w);
+else
+    [Buf_letras_placa disp_im] = DivideLetters(im, threshold_value, w);
+    idisp(disp_im);
+end
 %%
 % Combinado cada letra do template com cada letra da placa
 for k = 1:length(Buf_letras_placa)
     letras_placa = Buf_letras_placa{k};
     match = [];
+    if k == length(Buf_letras_placa)&& ~cod && length(letras_placa)==7 && ~cid
+        
+        cod = true;
+    end    
     for i = 1:length(letras_placa)
         
-        if k == 2 && i>3;
+        if  i>3 && cod
             vec = [zeros(26,1)];
             for j = 1:length(NumerosTemplate{1})
                 % redimencionando a letra da placa para ficar com o mesmo tamanho da
@@ -83,17 +110,17 @@ for k = 1:length(Buf_letras_placa)
                 buf(buf > 0.1) = 1;
                 % fazendo o zncc entre cada letra da placa com o template
                 vec(j+26,:) = [zncc(NumerosTemplate{1}{j},buf)];
-            end    
-        else          
-            for j = 1:length(LetrasTemplate{1})                
+            end
+        else
+            for j = 1:length(LetrasTemplate{1})
                 % redimencionando a letra da placa para ficar com o mesmo tamanho da
-                % letra no template                
+                % letra no template
                 buf = imresize(letras_placa{i},size(LetrasTemplate{1}{j}));
                 buf(buf > 0.1) = 1;
                 % fazendo o zncc entre cada letra da placa com o template
                 vec(j,:) = [zncc(LetrasTemplate{1}{j},buf)];
             end
-             
+            
             
         end
         % Separando o matching mais forte
@@ -113,21 +140,27 @@ end
 Alfabeto_Numerico = ['ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'];
 
 for k = 1:length(m)
+    
     result = [];
     match = m{k};
     result = [];
     for i = 1:length(match)
         if match(i,1) > 0.1
+            
             result = [result Alfabeto_Numerico(match(i,2))];
         else
+            
             result = [result '_'];
             warning('wrong match \n i: %d \n match: %d ',i, match(i,1));
         end
     end
-    disp(result);
-    str{k} = result;
+    if display
+        
+        disp(result);
+        str{k} = result;
+    end
 end
-% end
+end
 
 
 

@@ -1,4 +1,4 @@
-function sub_im = DivideLetters(im_path, ths, varagin)
+function [sub_im varagout] = DivideLetters(im, ths, varagin)
 %% DivideLetters:
 %Esta função separa cada uma das letras da placa da imagem im, usando o
 %threshold ths.
@@ -27,25 +27,23 @@ function sub_im = DivideLetters(im_path, ths, varagin)
 % arrumar varagin
 %
 
-disp = true; %% comando de display
+  
 
-if disp
- stepbystep = {};
-end
+
+
 %%  
 temp = false;
 moto = false;
 codigo_placa = false;
 % Lendo imagem(s) do(s) template(s)
-im = iread(im_path,'grey','double');
 
-
- stepbystep = [stepbystep im]; 
-
+% imagens para o display
+stepbystep = {};
+stepbystep = [stepbystep im];
 % Aplicando o threshold no template
 im(im > ths) = 1;
 
- stepbystep = [stepbystep im]; 
+ 
 
 if nargin > 2    
     
@@ -53,7 +51,8 @@ if nargin > 2
         
         % varagin =  Janela do iopen
         im = iopen(im, varagin);
-        %             im = ierode(idilate(im, ones(2)), ones(3));
+        %im = ierode(idilate(im, ones(2)), ones(3));
+        
 
     elseif isequal(varagin,'template')
         
@@ -64,6 +63,9 @@ if nargin > 2
     end
 end
 
+
+
+stepbystep = [stepbystep im]; 
 % Separando cada caracter do template
 im_sub_box = iblobs(im);
 
@@ -74,7 +76,7 @@ im_sub_box = iblobs(im);
 if ~temp
     
     prop = (im_sub_box(i).umax - im_sub_box(i).umin)/(im_sub_box(i).vmax - im_sub_box(i).vmin);
-    if abs(prop-3) < 4e-1
+    if abs(prop-3) < 1
         
         % Placa de carro
        new_im = RecorteDaPlaca(im, 'carro');
@@ -82,7 +84,7 @@ if ~temp
         
         % Placa Moto
         new_im = RecorteDaPlaca(im, 'moto');
-        moto = true
+        moto = true;
     else
         new_im  = {im};
         warning('Modelo de placa não detectado \n prop: %d',prop);
@@ -105,9 +107,9 @@ end
 
 
 % Mostrando o passo a passo
-if disp
- iconcat(stepbystep,'v') %% display
-end
+
+  varagout = iconcat(stepbystep,'v'); %% display
+
 
 end
 
