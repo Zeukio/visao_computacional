@@ -14,7 +14,7 @@ imt = zeros(size(im1,1), size(im1,2));
 for i = 1:length(bl)
    imt(ceil(bl(i).vc), ceil(bl(i).uc)) = 1;
 end
-
+imt = iconvolve(imt,kgauss(3));
 houghLines = Hough(imt);
 
 p = houghLines.lines;
@@ -37,8 +37,14 @@ end
 %    im(ceil(abs(cu(1,i))), i) = 1;   
 % end
 
-% figure, idisp(im);
-houghLines.plot;
+figure, idisp(im);
+for  i = 1:numel(p)
+    if p(i).strength >= 1
+        p(i).plot
+        i
+    end
+end
+bl.plot_box;
 
 % figure, idisp(im);
 
@@ -110,8 +116,8 @@ sub_im{i+1} = iroi(im, [min(bl2.umin), max(bl2.umax) ; min(bl2.vmin) , max(bl2.v
 % figure, idisp(sub_im{i+1})
 
 ths = 0.3;
-w = ones(2);
-str = placa2str(sub_im{end},ths,w,'display','codigo');
+w = ones(1);
+str = placa2str(sub_im{end},ths,w,'display');
 
 % imt = iblobs(sub_im{i+1})
 % imt.plot_box

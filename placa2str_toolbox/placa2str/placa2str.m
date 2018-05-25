@@ -3,8 +3,18 @@
 %  esse códogo tem como objetivo implementar uma função que faça a leitura
 %  de uma imagem contendo uma placa de carro, e deve retornar uma string
 %  com o texto da placa
+%  
+% chamada pafrão
+% |str = placa2str(im,ths,w)|
 %
-% Para desenvolvimeto usaremos a versão script
+% chamada com o display do step-by-step dos Threshold's
+% |str = placa2str(im,ths,w,'display')| 
+%
+% chamada informando que a imagem tem só o código da placa 
+% |str = placa2str(im,ths,w,'codigo')| 
+
+
+
 
 %% Modificar essa seção quando mudar para função
 % % limpando a memória
@@ -20,10 +30,11 @@ function str = placa2str(im,ths,w,varargin)
 %
 % help here
 
+% variavais de comando
 display = false;
 cod = false;
-cid = false;
 
+% detecção dos comandos extras
 if nargin > 3
     
     if isa(varargin{1},'cell')
@@ -46,9 +57,8 @@ if nargin > 3
                 %se display
                 display = true;
             elseif isequal(comand{i},'codigo')
-                cod = true;
-             elseif isequal(comand{i},'cidade')
-                cid = true;   
+                
+                cod = true;           
             else
                 % Erro caso os comandos forem inválidos
                 error('Invalid Input');
@@ -56,6 +66,8 @@ if nargin > 3
         end
     end
 end
+
+
 %% Lendo a(s) imagem(s) do(s) template(s)
 % Definindo o path do template letras
 template_path = 'TempeMask\TemplateLetters.jpg';
@@ -70,8 +82,6 @@ LetrasTemplate = DivideLetters(LetrasTemplate, threshold_value, 'template');
 % Definindo o path do template numeros
 template_path = 'TempeMask\TemplateNumbers.jpg';
 NumerosTemplate = iread(template_path,'grey','double');
-% Definindo o valor do Threshold
-threshold_value = 0.2;
 % Separando as letras do template numeros
 NumerosTemplate= DivideLetters(NumerosTemplate, threshold_value, 'template');
 
@@ -95,7 +105,7 @@ end
 for k = 1:length(Buf_letras_placa)
     letras_placa = Buf_letras_placa{k};
     match = [];
-    if k == length(Buf_letras_placa)&& ~cod && length(letras_placa)==7 && ~cid
+    if k == length(Buf_letras_placa)&& ~cod && length(letras_placa)==7 
         
         cod = true;
     end    
@@ -136,7 +146,9 @@ for k = 1:length(Buf_letras_placa)
 end
 
 %%
-% display do resultado
+% gerando string do resultado
+
+% template das letras e numeros
 Alfabeto_Numerico = ['ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'];
 
 for k = 1:length(m)

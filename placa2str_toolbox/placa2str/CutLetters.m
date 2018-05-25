@@ -2,7 +2,9 @@ function sub_im  = CutLetters( im, temp, type_moto)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
-im = [ones(1,length(im(1,:)));im; ones(1,length(im(1,:)))];
+% adicionando uma borda para melhorar o recorte
+im = [ones(10,length(im(1,:)));im; ones(10,length(im(1,:)))];
+im = [ones(length(im(:,1)),10),im, ones(length(im(:,1)),10)];
 im_sub_box = iblobs(im);
 [~, i] = max(im_sub_box.area);
 sub_regioes = im_sub_box(i).children;
@@ -11,7 +13,7 @@ sub_regioes = im_sub_box(i).children;
 
 for i = 1:length(sub_regioes)
     %filtrando area
-    if im_sub_box(sub_regioes(i)).area > .3*mean(im_sub_box(sub_regioes).area)
+    if im_sub_box(sub_regioes(i)).area > .4*mean(im_sub_box(sub_regioes).area)
         sub_regioes1(i) = sub_regioes(i);
     end
     
