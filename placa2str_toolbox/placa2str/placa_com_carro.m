@@ -116,7 +116,7 @@ sub_im{i+1} = iroi(im, [min(bl2.umin), max(bl2.umax) ; min(bl2.vmin) , max(bl2.v
 % figure, idisp(sub_im{i+1})
 
 ths = 0.3;
-w = ones(1);
+w = ones(3);
 str = placa2str(sub_im{end},ths,w,'display');
 
 % imt = iblobs(sub_im{i+1})

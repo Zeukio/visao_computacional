@@ -1,9 +1,9 @@
 clear all, close all
 
-im = iread('placa12.jpg', 'grey', 'double');
+path = strcat(pwd, '\Dataset_Placas2');
+im = iread(path, 'grey', 'double');
 
 t = otsu(im)/2;
-
 % Ajustar o THS, se colocar t ele aplica o ths adaptativo
 im1 = niblack(im,-.5,1) < 0.3;
 im2 = im1;%iopen(im1, ones(20));
@@ -17,7 +17,7 @@ for i = 1:length(bl)
    imt(ceil(bl(i).vc), ceil(bl(i).uc)) = 1;
 end
 
-imt = idilate(imt, kcircle(25));
+imt = idilate(imt, kcircle(5));
 
 houghLines = Hough(imt);
 idisp(imt);
