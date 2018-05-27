@@ -112,23 +112,25 @@ for k = 1:length(Buf_letras_placa)
     for i = 1:length(letras_placa)
         
         if  i>3 && cod
-            vec = [zeros(26,1)];
+            vec = zeros(26,1);
             for j = 1:length(NumerosTemplate{1})
                 % redimencionando a letra da placa para ficar com o mesmo tamanho da
                 % letra no template
                 buf = imresize(letras_placa{i},size(NumerosTemplate{1}{j}));
-                buf(buf > 0.1) = 1;
+%                 buf(buf > 0.5) = 1;
+%                 buf(buf <= 0.5) = 0;
                 % fazendo o zncc entre cada letra da placa com o template
-                vec(j+26,:) = [zncc(NumerosTemplate{1}{j},buf)];
+                vec(j+26,:) = zncc(NumerosTemplate{1}{j},buf);
             end
         else
             for j = 1:length(LetrasTemplate{1})
                 % redimencionando a letra da placa para ficar com o mesmo tamanho da
                 % letra no template
                 buf = imresize(letras_placa{i},size(LetrasTemplate{1}{j}));
-                buf(buf > 0.1) = 1;
+%                 buf(buf > 0.5) = 1;
+%                 buf(buf <= 0.5) = 0;
                 % fazendo o zncc entre cada letra da placa com o template
-                vec(j,:) = [zncc(LetrasTemplate{1}{j},buf)];
+                vec(j,:) = zncc(LetrasTemplate{1}{j},buf);
             end
             
             
@@ -139,6 +141,7 @@ for k = 1:length(Buf_letras_placa)
         % Armazenado no vetor matching o valor do mathing e o index de cada
         % correspondência
         match(i,:) =  [val chara i];
+        vec = [];
     end
     m{k} = match;
     
@@ -156,7 +159,7 @@ for k = 1:length(m)
     result = [];
     match = m{k};
     result = [];
-    for i = 1:length(match)
+    for i = 1:length(match(:,1))
         if match(i,1) > 0.1
             
             result = [result Alfabeto_Numerico(match(i,2))];
@@ -166,11 +169,10 @@ for k = 1:length(m)
             warning('wrong match \n i: %d \n match: %d ',i, match(i,1));
         end
     end
-    if display
-        
-        disp(result);
-        str{k} = result;
+    if display        
+        disp(result);       
     end
+     str{k} = result;
 end
 end
 

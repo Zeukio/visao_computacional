@@ -1,12 +1,14 @@
 % limpando a memória
 clear all; close all; clc
 % Input values for debug
-path = strcat(pwd, '\Dataset_Placas');
+path = strcat(pwd, '\Placas_Carro_Inteiro');
+% path = strcat(pwd, '\Dataset_Placas');
 
 im =  iread(path,'grey','double');
-ths = 0.2;
-w = ones(2); %tamanho da janela - ideia é de mudar o tipo
+ths = 0.4;
+w = ones(3); %tamanho da janela - ideia é de mudar o tipo
 
- str = placa2str(im,ths,w,'display');
+%  str = placa2str(im,ths,w,'display');
+otsuf = 2;
 
-%str = placa_com_carro(im,ths);
+str = carro2str(im,ths, w,otsuf,'display');

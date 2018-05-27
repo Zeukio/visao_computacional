@@ -1,8 +1,11 @@
+
 clear all, close all
 
-im = iread('placa1.jpg', 'grey', 'double');
+im = iread('placa12.jpg', 'grey', 'double');
 
-t = otsu(im);
+
+otsuf = 2;
+t = otsu(im)/otsuf;
 
 % Ajustar o THS, se colocar t ele aplica o ths adaptativo
 im1 = niblack(im,-.5,1) < t;
@@ -123,11 +126,14 @@ p.plot
 
 for i = 1:size(bl4,2)
     sub_im{i} = iroi(im, [bl4(i).umin, bl4(i).umax ; bl4(i).vmin , bl4(i).vmax])
-    figure, idisp(sub_im{i})
+%     figure, idisp(sub_im{i})
 end
 
-sub_im{i+1} = iroi(im, [min(bl4.umin)-(median(bl4.a)*0.7), max(bl4.umax)+(median(bl4.a)*0.5); min(bl4.vmin)-(median(bl4.a)*1.1), max(bl4.vmax)+(median(bl4.a)*0.3)])
+squr = [min(bl4.umin)-(median(bl4.a)*0.8), max(bl4.umax)+(median(bl4.a)*0.5); min(bl4.vmin)-(median(bl4.a)*1.5), max(bl4.vmax)+(median(bl4.a)*0.5)]
+sub_im{i+1} = iroi(im,squr)
 figure, idisp(sub_im{i+1})
 
+placa2str(sub_im{i+1},0.4,ones(2),'display')
+end
 % imt = iblobs(sub_im{i+1})
 % imt.plot_box

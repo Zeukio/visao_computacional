@@ -26,14 +26,14 @@ temp = false;
 moto = false;
 cod = false;
 codigo_placa = false;
-% Lendo imagem(s) do(s) template(s)
 
 % imagens para o display
 stepbystep = {};
 stepbystep = [stepbystep im];
-% Aplicando o threshold no template
+% Aplicando o threshold 
+
 im(im > ths) = 1;
-% im(im <= ths) = 0;
+im(im <= ths) = 0;
 
 % analisando os parametros extras
 if nargin > 2
@@ -76,36 +76,10 @@ end
 
 
 stepbystep = [stepbystep im];
-
-% Separando cada caracter da imagem
-im_sub_box = iblobs(im,'connect',8);
-
-% Descobrindo a maior área externa da imagem
-[~, i] = max(im_sub_box.area);
-
-% deve-se tentar descobrir se é uma placa de moto ou carro
 if ~temp
-    
-    prop = (im_sub_box(i).umax - im_sub_box(i).umin)/(im_sub_box(i).vmax - im_sub_box(i).vmin);
-    if abs(prop-3) < 4e-1
-        
-        % Placa de carro
-        new_im = RecorteDaPlaca(im, 'carro');
-    elseif  abs(prop - 1.1) < 1e-1
-        
-        % Placa Moto
-        new_im = RecorteDaPlaca(im, 'moto');
-        moto = true;
-    elseif cod || temp
-        
-        new_im  = {im};
-    else
-        
-        new_im  = {im};
-        warning('Modelo de placa não detectado \n prop: %d',prop);
-    end
+new_im = RecorteDaPlaca(im); 
 else
-    new_im  = {im};
+    new_im = {im};
 end
 % figure, idisp(im);
 stepbystep = [stepbystep new_im];
