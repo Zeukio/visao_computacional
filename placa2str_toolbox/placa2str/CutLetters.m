@@ -1,10 +1,10 @@
 function sub_im  = CutLetters( im, temp, type_moto)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-
+ borda = 5 ;
 % adicionando uma borda para melhorar o recorte
-im = [ones(10,length(im(1,:)));im; ones(10,length(im(1,:)))];
-im = [ones(length(im(:,1)),10),im, ones(length(im(:,1)),10)];
+im = [ones( borda,length(im(1,:)));im; ones(borda,length(im(1,:)))];
+im = [ones(length(im(:,1)),borda),im, ones(length(im(:,1)),borda)];
 im_sub_box = iblobs(im);
 [~, i] = max(im_sub_box.area);
 sub_regioes = im_sub_box(i).children;
@@ -45,20 +45,17 @@ for i = 1:length(bufrect)
     [a b] = size(sub_im{i});
     
     if b/a<0.2 %% caso for um i ou 1 fazer um redimensionamento grande
-        vala = 0.2;
-        valb = 0.3;
+        vala = round(a*0.2);
+        valb = round(b*1.0);
       
     else
-        vala = 0.2;
-        valb = 0.2;
+        vala = round(a*0.2);
+        valb = round(b*0.2);
       
     end
-      sub_im{i} = [ones(round(a*vala),b); sub_im{i}];
-      [a b] = size(sub_im{i});
-      sub_im{i} =  [sub_im{i},ones(a,round(b*valb));ones(round(a*vala/3),b+round(b*valb))];
-      [a b] = size(sub_im{i});
-      sub_im{i} =  [ones(a,round(b*valb/5)),sub_im{i}];
-       
+    
+      sub_im{i} = [ones( vala,length(sub_im{i}(1,:)));sub_im{i}; ones(vala,length(sub_im{i}(1,:)))];
+      sub_im{i} = [ones(length(sub_im{i}(:,1)),valb),sub_im{i}, ones(length(sub_im{i}(:,1)),valb)];      
 end
 % idisp(sub_im)
 

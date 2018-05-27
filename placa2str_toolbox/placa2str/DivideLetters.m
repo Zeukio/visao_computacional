@@ -33,7 +33,7 @@ stepbystep = {};
 stepbystep = [stepbystep im];
 % Aplicando o threshold no template
 im(im > ths) = 1;
-im(im <= ths) = 0;
+% im(im <= ths) = 0;
 
 % analisando os parametros extras
 if nargin > 2
@@ -117,10 +117,12 @@ for i = 1:length(new_im)
         codigo_placa = true;        
     end 
     
-    sub_im{i} = CutLetters(new_im{i}, temp,codigo_placa);      
+    sub_im{i} = CutLetters(new_im{i}, temp,codigo_placa); 
+    stepbystep = [stepbystep iconcat(sub_im{i}, 'h')];
 end
 
 % saída do passa a passo
+
 varagout = iconcat(stepbystep,'v'); %
 
 
