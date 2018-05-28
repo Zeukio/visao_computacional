@@ -6,9 +6,9 @@ path = strcat(pwd, '\Placas_Carro_Inteiro');
 
 im =  iread(path,'grey','double');
 ths = 0.4;
-w = ones(3); %tamanho da janela - ideia é de mudar o tipo
+w = ones(2); %tamanho da janela - ideia é de mudar o tipo
 
 %  str = placa2str(im,ths,w,'display');
-otsuf = 2;
+otsuf = 1;
 
 str = carro2str(im,ths, w,otsuf,'display');

@@ -172,7 +172,12 @@ for k = 1:length(m)
     if display        
         disp(result);       
     end
-     str{k} = result;
+     str_cell{k} = result;
+end
+%% concatenando saída
+for i = 1:length(str_cell)
+    
+    str = [str, str_cell{i}, ' '];
 end
 end
 

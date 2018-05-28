@@ -44,7 +44,7 @@ for i = 1:length(bufrect(:,1))
     
     [a b] = size(sub_im{i});
     
-    if b/a<0.2 %% caso for um i ou 1 fazer um redimensionamento grande
+    if b/a<0.3 %% caso for um i ou 1 fazer um redimensionamento grande
         vala = round(a*0.3);
         valb = round(b*1.3);
       
