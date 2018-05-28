@@ -1,8 +1,8 @@
 
 function str = carro2str(im,ths,w, otsuf,varargin)
-%%
+%% carro2str
 %  essa função retorna uma string com as informações da placa do carro
-% |carro2str(im, otsuf,varargin)|
+%   |carro2str(im, otsuf,varargin)|
 %
 %
 %

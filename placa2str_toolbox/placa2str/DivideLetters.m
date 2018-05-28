@@ -3,17 +3,21 @@ function [sub_im, varagout] = DivideLetters(im, ths, varargin)
 %Esta função separa cada uma das letras da placa da imagem im, usando o
 %threshold ths.
 %
-%   DivideLetters(im, ths)
+%   |[sub_im] = DivideLetters(im, ths, varargin)|
 %
 % É possivel mandar parametros extras de entradas para a função sendo que:
 % 1 -  se o parametro extra for uma matriz numerica, ela será interpretada
 % como uma janela usada na função do iopen
 %
-%  DivideLetters(im, ths, iopen_window)
+%  |DivideLetters(im, ths, iopen_window)|
 %
 % 2 - se for mandado a string 'template', a função não aplicará mascaras de recorte
 %
-%  DivideLetters(im, ths, 'template')
+%  |DivideLetters(im, ths, 'template')|
+%
+% pode ser retornado o passo-a-passo da função  
+%
+%   |[sub_im, passo-a-passo] = DivideLetters(im, ths)|
 %
 % *LIMITAÇÕES:*
 % *A função necessita que a imagem contenha sómente a placa*

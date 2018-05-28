@@ -1,11 +1,23 @@
-function vecfinal =  Sortzitos(sub_regioes,im_sub_box,varargin)
+function idx_final =  Sortzitos(idx_vec,blobs_vec,varargin)
+%% Sortzitos
+%   |idx_final =  Sortzitos(idx_vec,blobs_vec,varargin)|
+% Esta função retorna os indices ordenados de acordo com suas posições
+% Para isso:
+% - idx_vec deve ser um vetor com os indices que serão ordenados
+% - blobs_vec é o vetor completo de todos os blobs
+%
+%% Chamanda da função
+% se a ordenação deve ser feita linha a linha (como a ordenação dos indices de uma matriz)
+%   |Sortzitos(idx_vec,blobs_vec)|
+% 
+% ou se a ordenação deve ser feita só considerando que é uma linha 
+%   |Sortzitos(idx_vec,blobs_vec, 'template')|idx_final =  Sortzitos(idx_vec,blobs_vec,varargin)
+%
 
-% Para manter a ordem das sub-imagens da esquerda pra direita usa-se a
-% ordenação pela posição central de cada região.
+
 temp = false;
 
-if nargin > 2
-    
+if nargin > 2    
     if isa(varargin{1},'cell')
         
         comand = varargin{1};
@@ -34,10 +46,11 @@ if nargin > 2
 end
 
 if ~temp
-    
-    idxo = length(im_sub_box.('uc'));   
-    p = im_sub_box.p;    
-    % método de ordenação maluca (como os índices de uma matriz)
+    % método de ordenação como os índices de uma matriz 
+    % [a11 a12 a13
+    %  a21 22 a23]   
+    idxo = length(blobs_vec.('uc'));   
+    p = blobs_vec.p;     
     p = [[1:idxo]' p'];
     [~, idxX]= sort(p(:,2));
     pxo = p(idxX,:);
@@ -65,15 +78,16 @@ if ~temp
     
 else
     
-    [~,idx] = sort([im_sub_box.('uc')]);  
+    [~,idx] = sort([blobs_vec.('uc')]);  
 end
 
- %
-     vecfinal = [];  
+%
+    idx_final = [];  
     for i = 1:length(idx)
-        for j = 1:length(sub_regioes)
-            if idx(i) == sub_regioes(j)
-                vecfinal = [vecfinal sub_regioes(j)];
+        for j = 1:length(idx_vec)
+            if idx(i) == idx_vec(j)
+                
+                idx_final = [idx_final idx_vec(j)];
             end
         end
     end

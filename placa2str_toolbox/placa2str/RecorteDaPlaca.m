@@ -1,6 +1,18 @@
 function s_im = RecorteDaPlaca(im)
-%RECORTEDAPLACA Summary of this function goes here
-%   Detailed explanation goes here
+%% RecorteDaPlaca
+%
+%   |new_im = RecorteDaPlaca(im)|
+%
+% Essa função retorna uma celula que contem duas imagens, identificação da cidade/estado e código da placa.
+% O recorte é feito seguindo os modelos de placas de automoveis:
+% Carro
+%  
+% <<MaskCarro.jpg>>
+% 
+% Moto
+%
+% <<MaskMoto.jpg>>
+%
 
 im_sub_box = iblobs(im);
 

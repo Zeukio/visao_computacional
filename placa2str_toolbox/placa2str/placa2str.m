@@ -1,35 +1,22 @@
+function str = placa2str(im,ths,w,varargin)
 %% placa2str
 %
-%  esse códogo tem como objetivo implementar uma função que faça a leitura
-%  de uma imagem contendo uma placa de carro, e deve retornar uma string
-%  com o texto da placa
-%  
-% chamada pafrão
-% |str = placa2str(im,ths,w)|
+%   |str = placa2str(im,ths,w,varargin)|
+%
+%  Essa função tem como objetivo implementar uma função que faça a leitura de uma imagem contendo uma placa de carro, e deve retornar uma string com o texto da placa
+% 
+% <<placacarro.pdf>>
+% 
+% chamada padrão
+%   |str = placa2str(im,ths,w)|
 %
 % chamada com o display do step-by-step dos Threshold's
-% |str = placa2str(im,ths,w,'display')| 
+%   |str = placa2str(im,ths,w,'display')| 
 %
 % chamada informando que a imagem tem só o código da placa 
-% |str = placa2str(im,ths,w,'codigo')| 
+%   |str = placa2str(im,ths,w,'codigo')| 
 
-
-
-
-%% Modificar essa seção quando mudar para função
-% % limpando a memória
-% clear all; close all ; clc
-% % Input values for debug
-% path = strcat(pwd, '\Dataset_Placas');
-% ths = 0.2;
-% w = ones(2); %tamanho da janela - ídeia é de mudar o tipo
-%
-%% Header da função
-
-function str = placa2str(im,ths,w,varargin)
-%
-% help here
-
+%%
 % variavais de comando
 display = false;
 cod = false;

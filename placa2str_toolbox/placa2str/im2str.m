@@ -1,5 +1,20 @@
-function [ str ] = im2str( im,ths,varargin)
-%% Help here
+function str = im2str(im, ths, varargin)
+%% im2str
+%
+%   |str = im2str(im, ths, varargin)|
+%
+% essa função compara a imagem mandada com o template das letras _mandatory_
+% retornando o caracter comparado
+%
+% Comparando qual quer caracter
+%   |im2str(im, ths)|
+%
+% Comparando especificamente com numeros
+%   |im2str(im, ths, 'numero')|
+%
+% Comparando especificamente com letras
+%   |im2str(im, ths, 'letra')|
+%
 
 %% Lendo a(s) imagem(s) do(s) template(s)
 % detecção dos comandos extras

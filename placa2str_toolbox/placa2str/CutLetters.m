@@ -1,6 +1,13 @@
 function sub_im  = CutLetters( im, temp, type_moto)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%% CutLetters
+%
+%   |sub_im  = CutLetters( im, temp, type_moto)|
+%
+% Essa função retorna o recorte das letras da imagem im com uma leve
+% aplicação de bordas.
+%  Se ela for uma imagem do tipo template temp deve ser true
+%  E se for de uma moto type_moto = true;
+
 im_sub_box = iblobs(im);
 [~, i] = max(im_sub_box.area);
 sub_regioes = im_sub_box(i).children;
