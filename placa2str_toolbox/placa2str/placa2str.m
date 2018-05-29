@@ -162,6 +162,7 @@ for k = 1:length(m)
      str_cell{k} = result;
 end
 %% concatenando saída
+str =[];
 for i = 1:length(str_cell)
     
     str = [str, str_cell{i}, ' '];

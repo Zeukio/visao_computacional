@@ -189,12 +189,13 @@ end
 %% chamando função de identificação 
 if display
 
-    str_cell = placa2str(im5,ths,w,'display');
+    str = placa2str(im5,ths,w,'display');
 else
     
-    str_cell = placa2str(im5,ths,w);
+    str = placa2str(im5,ths,w);
 end
 
 str = [];
+
 
 end
