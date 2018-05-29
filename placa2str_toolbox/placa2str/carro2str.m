@@ -1,13 +1,7 @@
-
 function str = carro2str(im,ths,w, otsuf,varargin)
 %% carro2str
 %  essa função retorna uma string com as informações da placa do carro
 %   |carro2str(im, otsuf,varargin)|
-%
-%
-%
-%
-
 
 display = false;
 
@@ -46,20 +40,20 @@ end
 t = otsu(im)/otsuf;
 % Ajustar o THS, se colocar t ele aplica o ths adaptativo
 im2 = niblack(im,-.5,1) < t;
-%
+% Retira todos os blobs com area superior a 100, o que faz eliminar blobs
+% sem muito valor
 bl = iblobs(im2, 'area', [100 Inf], 'touch', 0);
-%
+% Cria uma imagem preta com as dimensões da imagem inserida
 imt = zeros(size(im2,1), size(im2,2));
-%
+% Desenha um ponto no centroide de cada blob encontrado
 for i = 1:length(bl)
-    %
    imt(ceil(bl(i).vc), ceil(bl(i).uc)) = 1;
 end
-%
+% Dilata o ponto
 imt = idilate(imt, kcircle(3));
-%
+% Com a dilatação, o resultado do Hough é melhor
 houghLines = Hough(imt, 'houghthresh', 0.25);
-%
+% Salva as linhas encontradas da transformada de Hough acima
 p = houghLines.lines;
 
 %% Acha a equação da reta
@@ -80,9 +74,7 @@ for ni=1:numel(p)
     for i=1:size(bl,2)
         if(abs(bl(i).vc - cu(ni,ceil(bl(i).vc))) < 100)
             if(median(abs(bl(:).theta))-(abs(bl(i).theta)) < 0.4) 
-                %
                 bl1{ni}(1,p1) = bl(i);
-                %
                 p1 = p1+1;
             end
         end
@@ -90,13 +82,11 @@ for ni=1:numel(p)
     p1 = 1;
 end
 
+%% Escolhe as linhas que tenham pelo menos 7 blobs, a mesma quantidade mínima do código
 for ni=1:numel(bl1)
     if(size(bl1{ni}, 2) > 7)
-        %
         bl2{p1} = bl1{ni};
-        %
         taman(p1) = median(bl2{p1}.area);
-        %
         p1 = p1+1;        
     end
 end
@@ -106,9 +96,8 @@ end
 %% Organiza por distribuição na placa, da esquerda para a direita
 [bl1ord , I] = sort(bl2{tutu}.uc);
 
-% Calcula a distância entre A e B
+% Calcula a distância entre o blob 1 e o blob 2
 for i = 1:size(bl1ord,2)-1
-    
    dis(i) = bl1ord(i+1) - bl1ord(i); 
 end
 
@@ -134,29 +123,26 @@ end
 [val1, ind1] = max(paux_1);
 letra = 1;
 
-%% Separa o grupo
+%% Separa o grupo que atende
 if(ind1 ~= 1)
     for i=1:ind1-1
-        %
         letra = paux_1(i) + letra; 
     end
 end
-%
 pa = 1;
+
 for i=letra:val1+letra
-    %
     bl3(pa) = bl2{tutu}(I(i));
     pa = pa + 1;
 end
-% 
 pa = 1;
+
 for nb=1:numel(bl3)
     if (abs(median(bl3.a) - bl3(nb).a) < 100)   
         bl4(pa) = bl3(nb);
         pa = pa + 1;
     end
 end
-
 
 %% Corte da placa
 
@@ -182,8 +168,11 @@ im5 = iroi(sub_im,bufrect);
 if display
     
 % colocar os display necessários aqui
-% use o comando 
-%%%%%- idisp(im,'nogui'); -%%%%%
+figure, idisp(im,'nogui')
+bl.plot
+figure, idisp(im,'nogui')
+p.plot
+figure, idisp(im5,'nogui')
 end    
 
 %% chamando função de identificação 

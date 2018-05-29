@@ -85,7 +85,7 @@ if ~display
     Buf_letras_placa = DivideLetters(im, threshold_value,'window', w,'alfanum',cod);
 else
     [Buf_letras_placa disp_im] = DivideLetters(im, threshold_value,'window', w,'alfanum',cod);
-    idisp(disp_im, 'nogui');
+    figure, idisp(disp_im, 'nogui');
 end
 %%
 % Combinado cada letra do template com cada letra da placa
