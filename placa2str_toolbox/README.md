@@ -1,8 +1,6 @@
 # Placa2Str_toolbox
 
-![])
-
-A toolbox  Placa2Str_toolbox adiciona as funções **placa2str.m** e a função **carro2str.m** ao *path* padrão do MATLAB, bem como algumas outras funções auxiliares. 
+A toolbox  Placa2Str_toolbox adiciona as funções **placa2str.m** e a função **carro2str.m** ao *path* padrão do MATLAB, bem como algumas outras funções auxiliares e algumas imagens de template. 
 Esta toolbox necessita da biblioteca gratuita [*robotics vision and control*](http://petercorke.com/wordpress/books/book), desenvolvida pelo Peter Corke. 
 
 ## *carro2str.m*
