@@ -30,7 +30,7 @@ carro2str(im,ths,w,otsuf)
 ```
 Sendo assim a saida do programa deve ser algo assim
 ```matlab
-'SCBLUMENAU QIA3345'
+'SCBLUMENAU *******'
 ```
 A função possibilita usar um comando extra o *display*, que mostra o passo a passo da função. 
 
@@ -42,7 +42,7 @@ A identificação da placa será feito com a seguinte imagem:
 
 *obs: É necessario estar com a toolbox instalada ou com as funções da toolbox no path do MATLAB*
  
-![](https://github.com/Zeukio/visao_computacional/blob/master/placa2str_toolbox/Resultados/sub_im.png?raw=true)
+![](https://github.com/Zeukio/visao_computacional/blob/master/placa2str_toolbox/Dataset_Placas/placa_carro2.jpg?raw=true)
 
 Primeiramente será criada uma variável com a imagem desejada, usando o comando *iread* da toolbox [*robotics vision and control*](http://petercorke.com/wordpress/books/book), a imagem dever ser lida em escala de cinza e precisão dupla.
 
@@ -60,7 +60,7 @@ placa2str(im,ths,w)
 ```
 Sendo assim a saida do programa deve ser algo assim
 ```matlab
-'SCBLUMENAU QIA3345'
+'PRCURITIBA ABC1234 '
 ```
 A função possibilita usar um comando extra o *display*, que mostra o passo a passo da função. 
 ```matlab
@@ -68,4 +68,4 @@ placa2str(im,ths,w,'display')
 ```
 A imagem do passo a passo será desta forma
 
-![](https://github.com/Zeukio/visao_computacional/blob/master/placa2str_toolbox/Resultados/placacarro.jpg?raw=true)
+![](https://github.com/Zeukio/visao_computacional/blob/master/placa2str_toolbox/Resultados/placacarro_.jpg?raw=true)
