@@ -105,18 +105,18 @@ end
 paux_1 = [];
 paux_1(1) = 1;
 paux = 1;
-pipi = 1;
+po = 1;
 
 for i = 2:size(dis,2)
    if( abs(median(dis) - dis(i)) < median(dis) && abs(median(dis) - dis(i-1)) < median(dis)) 
        
        paux = paux + 1;
-       paux_1(pipi) = paux;
+       paux_1(po) = paux;
    else
        
-       pipi = pipi + 1;
+       po = po + 1;
        paux = 1;
-       paux_1(pipi) = paux;
+       paux_1(po) = paux;
    end
 end
 
