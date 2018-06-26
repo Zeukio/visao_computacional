@@ -10,15 +10,16 @@ Esta toolbox necessita da biblioteca gratuita [*robotics vision and control*](ht
 As imagens a serem projetadas no cubo serão.
 
 *obs: É necessário estar com a toolbox instalada ou com as funções da toolbox no path do MATLAB*
- 
+ <p float="left">
  <img src="https://github.com/Zeukio/visao_computacional/blob/master/Realidade_Aumentada/DatasetCubo/ebra.jpg?raw=true" width="200" height="200" />
  <img src="https://github.com/Zeukio/visao_computacional/blob/master/Realidade_Aumentada/DatasetCubo/ebra2.jpg?raw=true" width="200" height="200" />
  <img src="https://github.com/Zeukio/visao_computacional/blob/master/Realidade_Aumentada/DatasetCubo/ebra3.jpg?raw=true" width="200" height="200" />
-
+</p>
+ <p float="left">
  <img src="https://github.com/Zeukio/visao_computacional/blob/master/Realidade_Aumentada/DatasetCubo/ebra4.jpg?raw=true" width="200" height="200" />
  <img src="https://github.com/Zeukio/visao_computacional/blob/master/Realidade_Aumentada/DatasetCubo/ebra5.jpg?raw=true" width="200" height="200" />
  <img src="https://github.com/Zeukio/visao_computacional/blob/master/Realidade_Aumentada/DatasetCubo/ebra6.jpg?raw=true" width="200" height="200" />
- 
+ </p>
 Primeiramente será feita a calibração da camera usando o APP de MATLAB **CameraCalibrator** , para isso é necessário imprimir o xadrez de calibração e deverá ser exportado o objeto da calibração para o workspace.
 *obs: Mais informações de como fazer a calibração no link [https://mathworks.com/help/vision/ug/single-camera-calibrator-app.html](https://mathworks.com/help/vision/ug/single-camera-calibrator-app.html)*
 
