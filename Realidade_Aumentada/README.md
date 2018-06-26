@@ -1,4 +1,4 @@
-# Placa2Str_toolbox
+# Realidade Aumentada usando MATLAB
 
 A toolbox **RealidadeAumentada** adiciona as funções **projectcube** e a função **projectstl.m** ao *path* padrão do MATLAB, bem como algumas outras funções auxiliares. 
 Esta toolbox necessita da biblioteca gratuita [*robotics vision and control*](http://petercorke.com/wordpress/books/book), desenvolvida pelo Peter Corke e a toolbox de visão computacional do MATLAB
