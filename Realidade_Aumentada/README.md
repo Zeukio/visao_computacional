@@ -1,13 +1,13 @@
 # Realidade Aumentada usando MATLAB
 
-A toolbox **RealidadeAumentada** adiciona as funções **projectcube** e a função **projectstl.m** ao *path* padrão do MATLAB, bem como algumas outras funções auxiliares. 
-Esta toolbox necessita da biblioteca gratuita [*robotics vision and control*](http://petercorke.com/wordpress/books/book), desenvolvida pelo Peter Corke e a toolbox de visão computacional do MATLAB
+A *toolbox* de **RealidadeAumentada** adiciona as funções **projectcube** e a função **projectstl.m** ao *path* padrão do MATLAB, bem como algumas outras funções auxiliares. 
+Esta toolbox necessita da biblioteca gratuita [*robotics vision and control*](http://petercorke.com/wordpress/books/book), desenvolvida pelo Peter Corke e da *toolbox* de visão computacional do MATLAB.
 
-## *projectcube.m*
-***projectcube.m*** é uma função em MATLAB que se propõe a ler uma imagem da webcam e projetar um cubo em um padrão xadrez. 
+## Função *projectcube.m*
+A ***projectcube.m*** é uma função em MATLAB que tem por objetivo ler uma imagem da *webcam* e projetar um cubo em um padrão xadrez. 
 
 ### Exemplo
-As imagens a serem projetadas no cubo serão.
+As imagens a serem projetadas no cubo serão:
 
 *obs: É necessário estar com a toolbox instalada ou com as funções da toolbox no path do MATLAB*
  <p float="left">
@@ -20,17 +20,19 @@ As imagens a serem projetadas no cubo serão.
  <img src="https://github.com/Zeukio/visao_computacional/blob/master/Realidade_Aumentada/DatasetCubo/ebra5.jpg?raw=true" width="200" height="200" />
  <img src="https://github.com/Zeukio/visao_computacional/blob/master/Realidade_Aumentada/DatasetCubo/ebra6.jpg?raw=true" width="200" height="200" />
  </p>
-Primeiramente será feita a calibração da camera usando o APP de MATLAB **CameraCalibrator** , para isso é necessário imprimir o xadrez de calibração e deverá ser exportado o objeto da calibração para o workspace.
-*obs: Mais informações de como fazer a calibração no link [https://mathworks.com/help/vision/ug/single-camera-calibrator-app.html](https://mathworks.com/help/vision/ug/single-camera-calibrator-app.html)*
+ 
+ **Observação**: As imagens padrão são mostradas acima, porém o usuário tem liberdade de escolher suas próprias imagens.
+ 
+Primeiramente será realizada a calibração da câmera usando o APP de MATLAB **CameraCalibrator**, para isso é necessário imprimir o xadrez de calibração. O objeto da calibração deverá ser exportado para o *workspace*.
+**Observação**: Mais informações de como fazer a calibração no link [https://mathworks.com/help/vision/ug/single-camera-calibrator-app.html](https://mathworks.com/help/vision/ug/single-camera-calibrator-app.html) 
 
-com a calibração feita é necessário definir o tamnho dos quadrados do tabuleio 
-e a quantidade de frames que será processado na imagem 
+Com a calibração realizada é necessário definir o tamanho dos quadrados do tabuleiro e a quantidade de *frames* que será processado na imagem: 
 
 ```matlab
 squareSize = 23;
 Nframes = 100;
 ```
-Depois devera ser criada uma celula com todas as imagens desejada, usando o comando *iread* da toolbox [*robotics vision and control*](http://petercorke.com/wordpress/books/book), a imagem dever ser lida em escala de cinza e precisão dupla.
+Depois deve ser criada uma célula com todas as imagens desejadas, usando o comando *iread* da toolbox [*robotics vision and control*](http://petercorke.com/wordpress/books/book). **A imagem deve ser lida em escala de cinza e precisão dupla**.
 
 ```matlab
 improject{1} = iread('DatasetCubo\ebra.jpg','double','grey');
@@ -44,18 +46,18 @@ Por fim deve ser chamada a função ***projectcube***.
 ```matlab
 projectcube(camparam,squareSize,Nframes,improject)
 ```
-Sendo assim a saida do programa deve ser algo assim
+Resultando em uma imagem como esta: 
 ![](https://github.com/Zeukio/visao_computacional/blob/master/Realidade_Aumentada/Resultados/ebra.png?raw=true)
 
-A função possibilita usar vários comandos extras como  'animate', faz o cubo rodar entorno do eixo z. Esse e outros comandos extras podem ser visros no help da função 
+A função possibilita usar vários comandos extras como  **animate**, que faz o cubo rotacionar entorno do eixo z. Esse e outros comandos extras podem ser visros no *help* da função. 
 
-## *projectstl.m*
-***projectstl.m*** é uma função em MATLAB que se propõe a fazer a mesma coisa da função ***projectcube***, porem ao inves de projetar um cubo ele projeta os pontos de um arquivo stl
+## Função *projectstl.m*
+A ***projectstl.m*** é uma função em MATLAB que tem por objetivo fazer a mesma coisa da função ***projectcube***, porém ao invés de projetar um cubo, ele projeta os pontos de um arquivo STL.
 
 ### Exemplo
-Assim com na ***projectcube*** é necessário fazer a calibração da câmera, definir o tamnho dos quadrados e definir a quantidade de frames a serem processados 
+Assim com na ***projectcube*** é necessário fazer a calibração da câmera, definir o tamanho dos quadrados e definir a quantidade de frames a serem processados. 
 
-Aseguir deve-se declarar em uma string o path do arquivo stl desejado
+A seguir deve-se declarar em uma *string*, o *path* do arquivo STL desejado:
 
 ```matlab
 str = 'DatasetStl\tie_fighter.stl'
@@ -64,7 +66,7 @@ Por fim deve ser chamada a função ***projectstl***.
 ```matlab
 projectstl(camparam,squareSize,Nframes,str);
 ```
-A saida deve ser algo assim
+Resultando em uma imagem como esta:
 ![](https://github.com/Zeukio/visao_computacional/blob/master/Realidade_Aumentada/Resultados/tie.png?raw=true)
 
-Assim como a ***projectcube*** essa função também posui a possibilidade de entradas extras que podem ser vistas no help da função.
+Assim como a ***projectcube*** essa função também possui a possibilidade de entradas extras que podem ser vistas no *help* da função.
